@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# User's API spec
+contract/api/
+
 # Distribution / packaging
 .Python
 env/
