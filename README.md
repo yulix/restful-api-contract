@@ -1,24 +1,15 @@
 # restful-api-contract
 A "batteries included" document generator and Mock server for RESTful API contract
 
-# Quick start
+#Quick start
 
-###Clone the repository
-$ git clone
-
-###Install the packages
-$ pip install -r requirements
-
-###Use the example 
-$ cd  
+###Copy the example
 $ ./init.py 
-
-###Start the server
-$ ./manage.py runserver
-
+###Build Docker image
+docker build -t demo .
+###Run container
+docker run -d -p 8080:5000 demo
 ###Open browser and visit http://localhost:5000
-
-
 
 
 
