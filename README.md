@@ -3,13 +3,13 @@ A "batteries included" document generator and Mock server for RESTful API contra
 
 #Quick start
 
-###Copy the example
+####Copy the example
 $ ./init.py 
-###Build Docker image
+####Build Docker image
 docker build -t demo .
-###Run container
+####Run container
 docker run -d -p 8080:5000 demo
-###Open browser and visit http://localhost:5000
+####Open browser and visit http://localhost:8080
 
 
 
