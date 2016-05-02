@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-  <title>Living API</title>
+  <title>Mock Server</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
@@ -39,13 +39,6 @@
 <div class="sidebar-gruntfile-trigger col-sm-3 sidebar">
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel ">
-    <div class="panel-heading" role="tab" id="headingSummary">
-      <h3 class="panel-title">
-        <a role="button" href="#project_title" class="sidebar-alink" >{{doc.project.title}}</a>
-      </h3>
-    </div>
-  </div>
   {% for group in doc.groups %}
   <div class="panel">
     <div class="panel-heading" role="tab" id="headingThree">
@@ -78,10 +71,6 @@
 
 <!-- content begin -->
 <div class="col-sm-9 col-sm-offset-3 main">
-  <div id="project_title">
-  <H1>{{doc.project.description}}</H1>
-  {{doc.project.detail | safe}}
-  </div>
 
   {% for group in doc.groups %}
   <H2 class="group-header" id="{{group.name}}_section">{{group.description}}</H2>
@@ -91,31 +80,7 @@
     <h3 id="{{item.html_id}}">{{item.ctx.title}}</h3>
     <h3><span class="label label-info">{{ item.method }} </span>
     <span class="label label-default"> {{ item.url }}</span></h3>
-    <div class="request-header">
-      <span><b>Example:</b> </span>
-      <sapn>{{item.ctx.make_example(item.path)}}
-    </div>
-    <div class="request-header"><b>Parameters:</b></div>
-    {% if item.ctx.parameters %}
-    <table class="table table-bordered">
-    <tr>
-      <td>Name</td>
-      <td>Locate in</td>
-      <td>Data Type</td>
-      <td>Descripton</td>
-    </tr>
-    {% for inputarg in item.ctx.parameters %}
-    <tr>
-      <td>{{inputarg.name}}</td>
-      <td>{{inputarg.location_str}}</td>
-      <td>{{inputarg.datatype}}</td>
-      <td>{{inputarg.description}}</td>
-    </tr>
-    {% endfor %}
-    </table>
-    {% else %}
-    <div>None</div>
-    {% endif %}
+
     <span><b>Responses:</b></span>
 
     <div>
@@ -124,7 +89,7 @@
       {% for rsp in item.ctx.responses.values() %}
         <li role="presentation" class="{% if rsp.code == 200 %}
         active {% endif %}">
-        <a href="#{{item.html_id}}{{rsp.code}}" aria-controls="{{item.html_id}}{{rsp.code}}" role="tab" data-toggle="tab">{{rsp.code}}</a></li>
+        <a href="#{{item.html_id}}{{rsp.code}}" aria-controls="{{item.html_id}}{{rsp.code}}" role="tab" path="{{item.path}}">{{rsp.code}}</a></li>
       {% endfor %}
       </ul>
 
@@ -151,14 +116,28 @@
 </div>
 </div>
 
+<script type="text/javascript">
+  $('.nav-tabs a').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type : "PUT",
+      dataType : 'json',
+      url : "/mock/response",
+      data :  {
+                "rspcode": $(this).text(),
+                "path" : $(this).attr('path')
+              },
+      success : function(result) {
+          if ( result.msg == 'OK' ) {
+            console.log('success');
+          } else {
+            console.log('error');
+          }
+      }
+    });
+    $(this).tab('show')
+  })
+</script>
+
 </body>
 </html>
-
-
-<!--
-/users/ GET Gives a list of all users
-/users/ POST Creates a new user
-/users/<id> GET Shows a single user
-/users/<id> PUT Updates a single user
-/users/<id> DELETE Deletes a single user
--->

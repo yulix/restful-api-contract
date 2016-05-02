@@ -62,6 +62,9 @@ class Document(object):
     def add_endpoint(self, ctx, endpoint_path):
         self._endpoints_dict[endpoint_path] = ctx
 
+    def get_ctx(self, endpoint_path):
+        return self._endpoints_dict.get(endpoint_path, None)
+
     def parse(self):
         for item in self.app.url_map.iter_rules():
             a = {}

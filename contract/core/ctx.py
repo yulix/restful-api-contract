@@ -60,6 +60,12 @@ class CtxEndpoint(object):
                 data[i.name] = 'xxx'
         return url_for(endpoint, **data)
 
+    def set_current_rsp(self, rspcode):
+        for rsp in self.responses.values():
+            if rsp.code == rspcode:
+                self.current_rsp = rsp
+                break
+
 
 # parameters in URL path of HTTP reuests
 # example:  http://example.com/user/<int:id>

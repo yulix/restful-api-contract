@@ -1,7 +1,14 @@
-from flask import Blueprint
+from flask import render_template
+from contract.api.config import LANG
 from .. import app
 
-docview = Blueprint('docview', __name__, url_prefix='/doc')
-import index
 
-app.register_blueprint(docview)
+from mock import mockview
+
+app.register_blueprint(mockview)
+
+
+@app.route('/')
+def index():
+    f = '{}/index.html'.format(LANG)
+    return render_template(f, doc=app.doc)
