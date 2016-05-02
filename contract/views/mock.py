@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, make_response
 from flask import render_template, jsonify, request
 from .. import app
 from contract.api.config import LANG
@@ -19,9 +19,8 @@ def set_response():
     path = request.form['path']
     ctx = app.doc.get_ctx(path)
     if ctx:
-        print("OK")
         ctx.set_current_rsp(rspcode)
-        return jsonify({'msg': 'OK'})
+        return jsonify({'msg': 'OK.'})
     else:
-        print("Error")
-        return jsonify({'msg': 'Error'})
+        return make_response(jsonify({'err': 'path: %s not found.' % path }),
+            404)

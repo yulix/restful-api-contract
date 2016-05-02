@@ -128,7 +128,8 @@
                 "path" : $(this).attr('path')
               },
       success : function(result) {
-          if ( result.msg == 'OK' ) {
+          console.log(result)
+          if ( result.msg == 'OK.' ) {
             console.log('success');
           } else {
             console.log('error');
